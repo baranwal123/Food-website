@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        header nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .menu-item {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .menu-item h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .menu-item p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        #order-summary {
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        form label {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        form input, form textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        form textarea {
+            resize: vertical;
+        }
+
+        footer {
+    background-color: green;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.footer-content {
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+	
+.footer-content {
+    display: flex;
+}
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .menu-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .menu-img {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 10px;
+            }
+        }
+
+        #food-history {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .menu-item-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .menu-item-container .menu-item {
+            flex: 1 1 calc(33% - 20px);
+        }
+
+        @media (max-width: 900px) {
+            .menu-item-container .menu-item {
+                flex: 1 1 calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .menu-item-container .menu-item {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🍔🍔🍔🍟🍟😋Welcome # TO # OUR # Foodie # DUNIA😋🍔🍔🍔🍟<br>🍽️🍽️🍽️🍽️🍽️🍽️🍽️🍽️🍽️🍽️🍽️🍽️</br></h1>
+		<br> <br>
+
+        <nav>
+            <ul>
+			
+                <li><a href="#menu">🍴Menu</a></li> &nbsp;&nbsp; &nbsp;&nbsp; 
+                <li><a href="#order">🍴Order</a></li>&nbsp;&nbsp; &nbsp;&nbsp; 
+                <li><a href="#contact">🍴Contact</a></li>&nbsp;&nbsp; &nbsp;&nbsp; 
+                <li><a href="#food-history">🍴Food History</a></li>&nbsp;&nbsp; &nbsp;&nbsp; 
+                <li><a href="#login" id="login-link">🍴Login</a></li>&nbsp;&nbsp; &nbsp;&nbsp; 
+                <li><a href="#logout" id="logout-link" style="display: none;">🍴Logout</a></li>&nbsp;&nbsp; &nbsp;&nbsp; 
+						<img src="/pic6.png" alt="food" width="1340" height="500">
+            </ul>
+			
+        </nav>
+	<marquee>	🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔 </marquee>
+    </header>
+
+    <main>
+	
+	<br>
+	<marquee>
+	<img src="/pic2.png" alt="food" width="1340" height="300"> 
+	<img src="/pic2.png" alt="food" width="1340" height="300">
+	<img src="/pic2.png" alt="food" width="1340" height="300"> 
+	<img src="/pic2.png" alt="food" width="1340" height="300">
+	<img src="/pic2.png" alt="food" width="1340" height="300"> 
+	<img src="/pic2.png" alt="food" width="1340" height="300">
+	<img src="/pic2.png" alt="food" width="1340" height="300"> 
+	<img src="/pic2.png" alt="food" width="1340" height="300">
+	<img src="/pic2.png" alt="food" width="1340" height="300"> 
+	<img src="/pic2.png" alt="food" width="1340" height="300">
+	</marquee>
+	
+	<img src="/pic3.png" alt="food" width="1300" height="330">
+	
+	<marquee>
+	<img src="/pic4.png" alt="food" width="1340" height="300"> 
+	<img src="/pic2.png" alt="food" width="1340" height="300">
+	<img src="/pic4.png" alt="food" width="1340" height="300"> 
+	<img src="/pic2.png" alt="food" width="1340" height="300">
+	<img src="/pic2.png" alt="food" width="1340" height="300"> 
+	<img src="/pic4.png" alt="food" width="1340" height="300">
+	<img src="/pic2.png" alt="food" width="1340" height="300"> 
+	<img src="/pic4.png" alt="food" width="1340" height="300">
+	<img src="/pic2.png" alt="food" width="1340" height="300"> 
+	<img src="/pic4.png" alt="food" width="1340" height="300">
+	</marquee>
+	
+	
+	
+	
+        <section id="menu">
+            <h2>Our Menu</h2>
+            <div class="menu-item-container">
+                <!-- Example food items with INR prices -->
+                <div class="menu-item">
+                    <img src="/pizza.png" alt="Pizza" class="menu-img">
+                    <div>
+                        <h3>Pizza</h3>
+                        <p>Description: Delicious cheese pizza with your choice of toppings.</p>
+                        <p>Price: ₹900</p>
+                        <button onclick="addToCart('Pizza', 900)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/burger.png" alt="Burger" class="menu-img">
+                    <div>
+                        <h3>Burger</h3>
+                        <p>Description: Juicy beef burger with lettuce, tomato, and cheese.</p>
+                        <p>Price: ₹600</p>
+                        <button onclick="addToCart('Burger', 600)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/sushi.png" alt="Sushi" class="menu-img">
+                    <div>
+                        <h3>Sushi</h3>
+                        <p>Description: Fresh sushi rolls with various fillings.</p>
+                        <p>Price: ₹1200</p>
+                        <button onclick="addToCart('Sushi', 1200)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/pasta.png" alt="Pasta" class="menu-img">
+                    <div>
+                        <h3>Pasta</h3>
+                        <p>Description: Creamy pasta with your choice of sauce.</p>
+                        <p>Price: ₹1000</p>
+                        <button onclick="addToCart('Pasta', 1000)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/salad.png" alt="Salad" class="menu-img">
+                    <div>
+                        <h3>Salad</h3>
+                        <p>Description: Fresh salad with a variety of vegetables.</p>
+                        <p>Price: ₹700</p>
+                        <button onclick="addToCart('Salad', 700)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/tacos.png" alt="Tacos" class="menu-img">
+                    <div>
+                        <h3>Tacos</h3>
+                        <p>Description: Spicy tacos with your choice of meat or vegetarian options.</p>
+                        <p>Price: ₹750</p>
+                        <button onclick="addToCart('Tacos', 750)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/hotdog.png" alt="Hot Dog" class="menu-img">
+                    <div>
+                        <h3>Hot Dog</h3>
+                        <p>Description: Classic hot dog with mustard and ketchup.</p>
+                        <p>Price: ₹500</p>
+                        <button onclick="addToCart('Hot Dog', 500)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/ramen.png" alt="Ramen" class="menu-img">
+                    <div>
+                        <h3>Ramen</h3>
+                        <p>Description: Flavorful ramen with various toppings.</p>
+                        <p>Price: ₹1100</p>
+                        <button onclick="addToCart('Ramen', 1100)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/sandwich.png" alt="Sandwich" class="menu-img">
+                    <div>
+                        <h3>Sandwich</h3>
+                        <p>Description: Tasty sandwich with your choice of fillings.</p>
+                        <p>Price: ₹800</p>
+                        <button onclick="addToCart('Sandwich', 800)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/cake.png" alt="Cake" class="menu-img">
+                    <div>
+                        <h3>Cake</h3>
+                        <p>Description: Delicious cake with various flavors.</p>
+                        <p>Price: ₹500</p>
+                        <button onclick="addToCart('Cake', 500)">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Add additional 30 food items here -->
+				
+				
+				
+				 <div class="menu-item">
+                    <img src="/samosa.png" alt="Samosa" class="menu-img">
+                    <div>
+                        <h3>Samosa</h3>
+                        <p>Description: Spicy and crispy samosas filled with potatoes and peas.</p>
+                        <p>Price: ₹200</p>
+                        <button onclick="addToCart('Samosa', 200)">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Additional 10 Veg Dishes -->
+                <div class="menu-item">
+                    <img src="/paneer tikka.png" alt="Paneer Tikka" class="menu-img">
+                    <div>
+                        <h3>Paneer Tikka</h3>
+                        <p>Description: Grilled marinated paneer cubes.</p>
+                        <p>Price: ₹300</p>
+                        <button onclick="addToCart('Paneer Tikka', 300)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/chole.png" alt="Chole Bhature" class="menu-img">
+                    <div>
+                        <h3>Chole Bhature</h3>
+                        <p>Description: Spicy chickpeas served with deep-fried bread.</p>
+                        <p>Price: ₹350</p>
+                        <button onclick="addToCart('Chole Bhature', 350)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/dal.png" alt="Dal Makhani" class="menu-img">
+                    <div>
+                        <h3>Dal Makhani</h3>
+                        <p>Description: Creamy black lentils cooked with spices.</p>
+                        <p>Price: ₹400</p>
+                        <button onclick="addToCart('Dal Makhani', 400)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/palak.png" alt="Palak Paneer" class="menu-img">
+                    <div>
+                        <h3>Palak Paneer</h3>
+                        <p>Description: Spinach curry with paneer cubes.</p>
+                        <p>Price: ₹350</p>
+                        <button onclick="addToCart('Palak Paneer', 350)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/bharta.png" alt="Baingan Bharta" class="menu-img">
+                    <div>
+                        <h3>Baingan Bharta</h3>
+                        <p>Description: Roasted eggplant mashed with spices.</p>
+                        <p>Price: ₹300</p>
+                        <button onclick="addToCart('Baingan Bharta', 300)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/dal.png" alt="Dal Tadka" class="menu-img">
+                    <div>
+                        <h3>Dal Tadka</h3>
+                        <p>Description: Spiced yellow lentils tempered with ghee.</p>
+                        <p>Price: ₹250</p>
+                        <button onclick="addToCart('Dal Tadka', 250)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/aalu gobhi.png" alt="Aloo Gobhi" class="menu-img">
+                    <div>
+                        <h3>Aloo Gobi</h3>
+                        <p>Description: Spiced potatoes and cauliflower.</p>
+                        <p>Price: ₹275</p>
+                        <button onclick="addToCart('Aloo Gobi', 275)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/jeera.png" alt="Jeera Rice" class="menu-img">
+                    <div>
+                        <h3>Jeera Rice</h3>
+                        <p>Description: Flavored rice with cumin seeds.</p>
+                        <p>Price: ₹200</p>
+                        <button onclick="addToCart('Jeera Rice', 200)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/pulav.png" alt="Pulao" class="menu-img">
+                    <div>
+                        <h3>Pulao</h3>
+                        <p>Description: Aromatic rice dish with mixed vegetables.</p>
+                        <p>Price: ₹300</p>
+                        <button onclick="addToCart('Pulao', 300)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="/kachori.png" alt="Kachori" class="menu-img">
+                    <div>
+                        <h3>Kachori</h3>
+                        <p>Description: Deep-fried pastry filled with spicy lentils.</p>
+                        <p>Price: ₹250</p>
+                        <button onclick="addToCart('Kachori', 250)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+            </div>
+        </section>
+
+        <section id="order">
+           <center> <h1>Order Summary</h1> </center>
+			
+			🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜🍜<br><br><br>
+            <div id="order-summary">
+                <p>No items added yet.</p>
+            </div>
+			<br>
+           <center> <button id="checkout-button">📢📢📣Checkout</button> </center>
+        </section>
+  <br><br><br><br>
+  
+ 
+ 
+ <img src="/deco 4.png" alt="food" width="1300" height="75"  > 
+        <section id="contact">
+           <center> <h1>📡📡Contact Us 📡📡</h1> </center> 
+            <form id="contact-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section id="food-history">
+            <center><h2>History of Food</h2></center>
+			
+			
+		<center>	<img src="/pic7.png" alt="food" width="200" height="200"  >  </center>
+			
+            <p>The history of food is a fascinating journey through human culture and evolution. From ancient agricultural practices to the development of diverse cuisines across the world, food has always been at the center of human civilization. Early humans foraged for wild plants and hunted animals, which eventually led to the domestication of crops and livestock. As societies evolved, so did their culinary practices, influenced by geography, climate, and trade. Spices, cooking techniques, and food preservation methods have all contributed to the rich tapestry of global cuisine we enjoy today.</p>
+        </section>
+    </main>
+
+   
+
+    <!-- Login Modal -->
+    <div id="login" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Logout Modal -->
+    <div id="logout" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLogoutModal()">&times;</span>
+            <h2>Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <button onclick="logout()">Logout</button>
+            <button onclick="closeLogoutModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let isLoggedIn = false;
+
+        function addToCart(item, price) {
+            const existingItem = cart.find(cartItem => cartItem.item === item);
+            if (existingItem) {
+                existingItem.quantity++;
+                existingItem.totalPrice = existingItem.quantity * price;
+            } else {
+                cart.push({ item, price, quantity: 1, totalPrice: price });
+            }
+
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const orderSummary = document.getElementById('order-summary');
+            orderSummary.innerHTML = '';
+
+            if (cart.length === 0) {
+                orderSummary.innerHTML = '<p>No items added yet.</p>';
+                return;
+            }
+
+            let totalAmount = 0;
+            cart.forEach(cartItem => {
+                orderSummary.innerHTML += `<p>${cartItem.item} - ₹${cartItem.totalPrice} (${cartItem.quantity} x ₹${cartItem.price})</p>`;
+                totalAmount += cartItem.totalPrice;
+            });
+
+            orderSummary.innerHTML += `<p><strong>Total: ₹${totalAmount}</strong></p>`;
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            if (!isLoggedIn) {
+                alert('You need to log in to proceed.');
+                return;
+            }
+
+            alert('Thank you for your order!');
+            cart.length = 0; // Clear the cart
+            updateOrderSummary();
+        }
+
+        function openLoginModal() {
+            document.getElementById('login').style.display = 'block';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login').style.display = 'none';
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('logout-link').style.display = 'none';
+            document.getElementById('login-link').style.display = 'inline';
+            closeLogoutModal();
+        }
+
+        function openLogoutModal() {
+            document.getElementById('logout').style.display = 'block';
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logout').style.display = 'none';
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            isLoggedIn = true;
+            document.getElementById('login-link').style.display = 'none';
+            document.getElementById('logout-link').style.display = 'inline';
+            closeLoginModal();
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Message sent! Thank you for contacting us.');
+        });
+
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            checkout();
+        });
+
+        document.getElementById('login-link').addEventListener('click', function() {
+            openLoginModal();
+        });
+
+        document.getElementById('logout-link').addEventListener('click', function() {
+            openLogoutModal();
+        });
+    </script>
+	
+	
+	
+	 <footer>
+        <p>
+		
+	
+	
+	<p> <marquee>
+HEALTH IS WEALTH🔔🔔🔔🔔</p></marquee>
+
+	
+	
+        <div class="quick">
+            <h1>🚸Contact Us:9019344042</h1>
+            <p>📞Phone: 9019344042</p>
+            <p>✉️Email: <a href="mailto:baranwal1008@gmail.com">baranwal1008@gmail.com</a></p>
+            
+            <p>Created by - Shlok Baranwal</p>
+        </div>
+        
+        </div>
+    </div>
+		</p>
+    </footer>
+</body>
+</html>
+
+</body>
+</html>
